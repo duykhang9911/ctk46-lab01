@@ -1,1 +1,1 @@
-const greeting = 'Hello World!'; 
+const greeting = 'Xin ch…o!'; 
