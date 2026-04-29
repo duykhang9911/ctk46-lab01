@@ -1,32 +1,35 @@
 import Link from "next/link";
-import { posts } from "@/data/posts";
+import { Post } from "@/types/post";
+import { Card, CardContent } from "@/components/ui/card";
 
-export default function BlogPage() {
+async function getPosts(): Promise<Post[]> {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+
+  if (!res.ok) throw new Error("Fetch lỗi");
+
+  return res.json();
+}
+
+export default async function BlogPage() {
+  const posts = await getPosts();
+
   return (
-    <div>
+    <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">Blog</h1>
 
-      <div className="space-y-6">
-        {posts.map((post) => (
-          <div
-            key={post.slug}
-            className="border p-6 rounded-lg hover:shadow-md transition"
-          >
-            <div className="flex gap-3 text-sm text-gray-500 mb-2">
-              <span>{post.category}</span>
-              <span>{post.date}</span>
-            </div>
-
-            <Link href={`/blog/${post.slug}`}>
-              <h2 className="text-xl font-semibold hover:text-blue-600">
+      {posts.slice(0, 10).map((post) => (
+        <Card key={post.id} className="mb-4">
+          <CardContent>
+            <Link href={`/blog/${post.id}`}>
+              <h2 className="text-xl font-semibold hover:text-blue-500">
                 {post.title}
               </h2>
             </Link>
 
-            <p className="text-gray-600 mt-2">{post.excerpt}</p>
-          </div>
-        ))}
-      </div>
+            <p className="mt-2 text-gray-600">{post.body}</p>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }
