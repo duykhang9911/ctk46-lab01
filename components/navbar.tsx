@@ -41,6 +41,7 @@ export default function Navbar() {
           <Link href="/projects">Projects</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/guestbook">Guestbook</Link>
+          <Link href="/pokemon">Pokédex</Link>
         </div>
       )}
     </nav>
